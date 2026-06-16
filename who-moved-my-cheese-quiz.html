@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Do You Face Change? — A Who Moved My Cheese Self-Assessment</title>
+<style>
+  :root{
+    --plum:#2D1B33;
+    --plum-2:#3D2545;
+    --ink:#231229;
+    --paper:#FBF7F2;
+    --paper-2:#F2EAE0;
+    --gold:#E3A82B;
+    --gold-soft:#F4D58A;
+    /* character colors */
+    --sniff:#2A9D8F;      /* teal — senses change */
+    --scurry:#E76F51;     /* coral — acts fast */
+    --haw:#5B8C5A;        /* green — grows */
+    --hem:#8A6A7B;        /* muted plum — resists */
+    --line:rgba(45,27,51,.12);
+    --shadow:0 10px 30px rgba(45,27,51,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',Calibri,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #4A2E54 0%, var(--plum) 55%, var(--ink) 100%);
+    color:#2D1B33;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:32px 16px 64px;
+    line-height:1.55;
+  }
+  .card{
+    width:100%;
+    max-width:780px;
+    background:var(--paper);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .topbar{
+    background:linear-gradient(135deg,var(--plum-2),var(--plum));
+    color:#fff;
+    padding:26px 34px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .topbar .badge{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold-soft);font-weight:700;
+  }
+  .topbar h1{font-size:22px;font-weight:700;margin-top:2px;line-height:1.25}
+  .cheese{font-size:34px;line-height:1}
+  .body{padding:34px}
+
+  /* ---------- intro ---------- */
+  .lede{font-size:16px;color:#4a3a50;margin-bottom:22px}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 26px}
+  .leg{
+    background:var(--paper-2);border-radius:14px;padding:14px 16px;
+    border-left:5px solid var(--c);
+  }
+  .leg .nm{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+  .leg .tag{font-size:12.5px;color:#5b4a61;margin-top:3px}
+  .start-row{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+  .meta{font-size:13px;color:#7a6a80}
+  button{
+    font-family:inherit;cursor:pointer;border:none;
+  }
+  .btn-primary{
+    background:var(--gold);color:#2D1B33;font-weight:700;font-size:16px;
+    padding:14px 30px;border-radius:999px;transition:transform .12s, box-shadow .12s;
+    box-shadow:0 6px 16px rgba(227,168,43,.35);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(227,168,43,.45)}
+  .btn-ghost{
+    background:transparent;color:var(--plum);font-weight:600;font-size:14px;
+    padding:10px 4px;text-decoration:underline;
+  }
+
+  /* ---------- progress ---------- */
+  .prog-wrap{margin-bottom:22px}
+  .prog-top{display:flex;justify-content:space-between;font-size:13px;color:#7a6a80;margin-bottom:7px;font-weight:600}
+  .prog-bar{height:8px;background:var(--paper-2);border-radius:999px;overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),#d98a1f);width:0;transition:width .3s}
+
+  /* ---------- question ---------- */
+  .q-num{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--scurry);font-weight:700}
+  .q-text{font-size:20px;font-weight:700;margin:6px 0 20px;color:#2D1B33}
+  .opt{
+    display:block;width:100%;text-align:left;background:var(--paper-2);
+    border:2px solid transparent;border-radius:14px;padding:15px 18px;margin-bottom:12px;
+    font-size:15.5px;color:#3a2c40;transition:border-color .12s, background .12s, transform .08s;
+  }
+  .opt:hover{border-color:var(--gold);transform:translateX(3px)}
+  .opt:active{transform:translateX(1px) scale(.997)}
+  .nav-row{display:flex;justify-content:space-between;margin-top:6px}
+
+  /* ---------- results ---------- */
+  .res-hero{text-align:center;padding:6px 0 18px}
+  .res-kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7a6a80;font-weight:700}
+  .res-emoji{font-size:56px;margin:8px 0 2px}
+  .res-name{font-size:30px;font-weight:800;color:var(--rc)}
+  .res-line{font-size:16px;font-style:italic;color:#5b4a61;margin-top:4px}
+  .res-desc{font-size:15.5px;color:#3a2c40;margin:18px 0 24px}
+  .mix h3,.tips h3,.allchar h3{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a6a80;font-weight:700;margin-bottom:14px}
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+  .bar-label{width:74px;font-size:13.5px;font-weight:700;flex-shrink:0}
+  .bar-track{flex:1;height:18px;background:var(--paper-2);border-radius:999px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:999px;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+  .bar-pct{width:38px;text-align:right;font-size:13px;font-weight:700;color:#5b4a61;flex-shrink:0}
+  .tips{margin-top:28px;background:var(--paper-2);border-radius:16px;padding:22px 24px;border-left:5px solid var(--rc)}
+  .tip{display:flex;gap:12px;margin-bottom:14px}
+  .tip:last-child{margin-bottom:0}
+  .tip .dot{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--rc);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+  .tip .tx{font-size:14.5px;color:#3a2c40}
+  .tip .tx b{color:#2D1B33}
+  .ei-note{margin-top:24px;background:linear-gradient(135deg,var(--plum-2),var(--plum));color:#f3e9d8;border-radius:16px;padding:20px 24px;font-size:14.5px}
+  .ei-note b{color:var(--gold-soft)}
+  .res-actions{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+
+  .hide{display:none}
+  @media(max-width:560px){
+    .legend{grid-template-columns:1fr}
+    .body{padding:26px 22px}
+    .topbar{padding:22px 24px}
+    .q-text{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="topbar">
+    <div class="cheese">🧀</div>
+    <div>
+      <div class="badge">ULACIT · Human Resource Management</div>
+      <h1>How Do You Face Change?</h1>
+    </div>
+  </div>
+  <div class="body">
+
+    <!-- ===== INTRO ===== -->
+    <section id="intro">
+      <p class="lede">In <em>Who Moved My Cheese?</em>, four characters react to the same change in four very different ways. None of us is purely one character — but most of us <b>lean</b> toward one when the Cheese disappears. This 12-question self-check reveals your dominant change style, shows your full mix, and gives you practical tips to handle change better.</p>
+
+      <div class="legend">
+        <div class="leg" style="--c:var(--sniff)"><div class="nm">🐭 Sniff <span class="tag" style="color:var(--sniff)">The Anticipator</span></div><div class="tag">Senses change early and starts moving before others notice.</div></div>
+        <div class="leg" style="--c:var(--scurry)"><div class="nm">🐭 Scurry <span class="tag" style="color:var(--scurry)">The Mover</span></div><div class="tag">Stops analyzing and just acts — fast, energetic, decisive.</div></div>
+        <div class="leg" style="--c:var(--haw)"><div class="nm">🧑 Haw <span class="tag" style="color:var(--haw)">The Learner</span></div><div class="tag">Resists first, then grows through fear and adapts.</div></div>
+        <div class="leg" style="--c:var(--hem)"><div class="nm">🧑 Hem <span class="tag" style="color:var(--hem)">The Resister</span></div><div class="tag">Denies the change and waits for things to go back to normal.</div></div>
+      </div>
+
+      <div class="start-row">
+        <button class="btn-primary" onclick="start()">Start the assessment →</button>
+        <p class="meta">12 questions · about 3 minutes · be honest, not aspirational</p>
+      </div>
+    </section>
+
+    <!-- ===== QUIZ ===== -->
+    <section id="quiz" class="hide">
+      <div class="prog-wrap">
+        <div class="prog-top"><span id="prog-label">Question 1 of 12</span><span id="prog-pct">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+      </div>
+      <div class="q-num" id="q-num">Scenario 01</div>
+      <div class="q-text" id="q-text"></div>
+      <div id="opts"></div>
+      <div class="nav-row">
+        <button class="btn-ghost" id="back-btn" onclick="back()">← Back</button>
+        <span></span>
+      </div>
+    </section>
+
+    <!-- ===== RESULTS ===== -->
+    <section id="results" class="hide"></section>
+
+  </div>
+</div>
+
+<script>
+/* ---------- Data ---------- */
+const C = {
+  sniff:{key:'sniff',name:'Sniff',emoji:'🐭',sub:'The Anticipator',color:'var(--sniff)',
+    line:'"Senses change before it happens."',
+    desc:'You read the room before the room knows it\'s changing. You scan for small signals, trust your instincts, and tend to be moving toward the new Cheese while others are still enjoying the old one. Your superpower is foresight — your risk is leaving people behind or being dismissed as "negative" when you raise early warnings.'},
+  scurry:{key:'scurry',name:'Scurry',emoji:'🐭',sub:'The Mover',color:'var(--scurry)',
+    line:'"Stops analyzing and just moves."',
+    desc:'When change hits, you act. You don\'t wait for perfect information or committee approval — you adjust the plan mid-course without panic. Your superpower is momentum: you turn uncertainty into motion. Your risk is moving so fast you skip the human side, or act before you\'ve thought a consequence all the way through.'},
+  haw:{key:'haw',name:'Haw',emoji:'🧑',sub:'The Learner',color:'var(--haw)',
+    line:'"Learns to laugh at himself and moves on."',
+    desc:'You usually resist at first — there\'s denial, fear, maybe a stretch of waiting at the empty station. But then you ask the brave question: "What would I do if I weren\'t afraid?" and you move. You grow through the discomfort and often come back to help others do the same. This is the most human and most coachable style — change is always possible for you.'},
+  hem:{key:'hem',name:'Hem',emoji:'🧑',sub:'The Resister',color:'var(--hem)',
+    line:'"Someone moved my cheese — this is not fair!"',
+    desc:'Right now, change feels like something done TO you. The instinct is to deny it, defend the old way, or wait for normal to return. Important: Hem is not a villain — he\'s afraid. Naming that fear is the first and most powerful step. The good news from the story: with a little self-awareness, almost every Hem can become a Haw.'}
+};
+
+const Q = [
+  {q:"Your company announces a major reorganization that starts next week. Your first move is to…",
+   a:[["I already sensed this was coming and have quietly started preparing.","sniff"],
+      ["Get going — I\'ll figure out the details as I adapt on the fly.","scurry"],
+      ["Feel uneasy at first, then push myself to face it head-on.","haw"],
+      ["Hope it blows over and things go back to how they were.","hem"]]},
+  {q:"A new software replaces the system you\'d completely mastered. You…",
+   a:[["Saw the old tool aging and had already explored alternatives.","sniff"],
+      ["Dive in and start clicking around before reading the manual.","scurry"],
+      ["Grumble for a bit, then commit to learning it properly.","haw"],
+      ["Insist the old software was better and keep using workarounds.","hem"]]},
+  {q:"Looking 2 years ahead, you think your role might change. You…",
+   a:[["Already ask \'what if my job looks different soon?\' and plan for it.","sniff"],
+      ["Don\'t overthink it — I\'ll pivot quickly when the time comes.","scurry"],
+      ["Find it scary, but make myself learn something new just in case.","haw"],
+      ["Prefer not to think about it — my role has always been fine.","hem"]]},
+  {q:"Something you relied on (a client, a routine, a teammate) is suddenly gone. You…",
+   a:[["Half-expected it and had a backup forming already.","sniff"],
+      ["Immediately start rebuilding with whatever I\'ve got.","scurry"],
+      ["Sit with the loss, then ask \'okay, what\'s my next step?\'","haw"],
+      ["Keep returning to the empty spot, waiting for it to come back.","hem"]]},
+  {q:"You have to make a decision but you DON\'T have all the information. You…",
+   a:[["Trust the signals I\'ve been tracking and move on instinct.","sniff"],
+      ["Decide fast and correct course as I learn more.","scurry"],
+      ["Hesitate, feel the fear, then choose anyway.","haw"],
+      ["Wait — I\'d rather not decide until everything is certain.","hem"]]},
+  {q:"When a plan fails or things don\'t go as expected, you tend to…",
+   a:[["Notice the warning signs early so failure rarely surprises me.","sniff"],
+      ["Shake it off and try a different approach right away.","scurry"],
+      ["Learn to laugh at myself and write down the lesson.","haw"],
+      ["Feel it\'s unfair and look for who or what to blame.","hem"]]},
+  {q:"Your honest relationship with \'the old way of doing things\' is…",
+   a:[["I let go of it early — it usually expires before others admit it.","sniff"],
+      ["I drop it the moment a better way appears.","scurry"],
+      ["I cling a little, then release it once I understand why.","haw"],
+      ["I defend it — \'we\'ve always done it this way\' feels safe.","hem"]]},
+  {q:"When you talk to others about an upcoming change, you usually…",
+   a:[["Point out the shift coming before it\'s on anyone\'s radar.","sniff"],
+      ["Rally people to just start and build momentum.","scurry"],
+      ["Share my own struggle openly so others feel safe to adapt.","haw"],
+      ["Voice why it probably won\'t work and shouldn\'t happen.","hem"]]},
+  {q:"Someone says \'we tried that years ago and it didn\'t work.\' You…",
+   a:[["Already see why the conditions are different now.","sniff"],
+      ["Say \'let\'s just test it again, fast, and see.\'","scurry"],
+      ["Feel the doubt but stay open to trying.","haw"],
+      ["Nod — that\'s usually a good reason not to bother.","hem"]]},
+  {q:"While waiting for clarity during an uncertain period, you…",
+   a:[["Scout ahead and gather signals about what\'s next.","sniff"],
+      ["Stay in motion — even imperfect action beats sitting still.","scurry"],
+      ["Battle my fear, then take one small step forward.","haw"],
+      ["Stay put and hope the uncertainty resolves itself.","hem"]]},
+  {q:"Be honest about your attachment to comfort and security. You…",
+   a:[["Stay alert so comfort never makes me complacent.","sniff"],
+      ["Trade comfort for opportunity without much hesitation.","scurry"],
+      ["Value comfort, but I can talk myself out of it when needed.","haw"],
+      ["Hold onto security tightly — leaving it feels too risky.","hem"]]},
+  {q:"In your job or studies RIGHT NOW, which describes you best?",
+   a:[["Anticipating the next change before it arrives.","sniff"],
+      ["Already moving fast on something new.","scurry"],
+      ["Working through resistance toward a change I know I need.","haw"],
+      ["Stuck, waiting for things to settle back down.","hem"]]}
+];
+
+/* EI-grounded tips per character */
+const TIPS = {
+  sniff:[
+    ["<b>Bring people with you.</b> You see change early — but if you sprint ahead silently, others feel blindsided. Translate your instincts into clear, shared signals."],
+    ["<b>Don\'t mistake early for negative.</b> When you raise a warning and get dismissed, frame it as opportunity, not doom — that\'s emotional intelligence in action."],
+    ["<b>Pressure-test your radar.</b> Fast pattern-reading can occasionally misfire. Pair your instinct with one quick reality check before you commit others to a move."]
+  ],
+  scurry:[
+    ["<b>Pace the people, not just the change.</b> Your speed is a gift, but slower adapters need a moment. Check in: \'who isn\'t with us yet, and why?\'"],
+    ["<b>Add a 10-second pause.</b> Before you launch, ask \'what\'s one consequence I haven\'t thought through?\' Self-regulation turns speed into wisdom."],
+    ["<b>Channel your momentum to help Hems move.</b> You\'re a natural change-energizer — use it to gently pull resisters into motion."]
+  ],
+  haw:[
+    ["<b>Ask Haw\'s question out loud.</b> \'What would I do if I weren\'t afraid?\' Name the fear — naming it shrinks it. That\'s self-awareness, the engine of change."],
+    ["<b>Write the lesson on the wall.</b> Haw recorded what he learned as he moved. Keep a short \'change log\' — it speeds up the next adaptation."],
+    ["<b>Shorten the denial stage.</b> You always eventually move — so practice noticing the resistance sooner and choosing the brave step faster."]
+  ],
+  hem:[
+    ["<b>Your resistance is fear, not failure.</b> Hem isn\'t a villain — he\'s afraid. Self-awareness starts with admitting: \'this scares me,\' without judgment."],
+    ["<b>Take one tiny step into the maze.</b> You don\'t have to leap. \'It is safer to search than to remain in a Cheeseless situation.\' Motion beats paralysis."],
+    ["<b>Find your Haw.</b> Almost every Hem can become a Haw with support. Ask someone who\'s already adapted to walk the first stretch with you."]
+  ]
+};
+
+/* ---------- State & logic ---------- */
+let idx=0;
+const scores={sniff:0,scurry:0,haw:0,hem:0};
+const answers=[]; // stores chosen key per question
+
+function start(){
+  idx=0; answers.length=0;
+  for(const k in scores) scores[k]=0;
+  document.getElementById('intro').classList.add('hide');
+  document.getElementById('results').classList.add('hide');
+  document.getElementById('quiz').classList.remove('hide');
+  render();
+}
+
+function render(){
+  const item=Q[idx];
+  document.getElementById('q-num').textContent='Scenario '+String(idx+1).padStart(2,'0');
+  document.getElementById('q-text').textContent=item.q;
+  document.getElementById('prog-label').textContent='Question '+(idx+1)+' of '+Q.length;
+  const pct=Math.round((idx)/Q.length*100);
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('back-btn').style.visibility = idx===0 ? 'hidden':'visible';
+
+  const wrap=document.getElementById('opts');
+  wrap.innerHTML='';
+  // light shuffle so the same character isn't always in the same position
+  const order=[0,1,2,3].sort(()=>Math.random()-0.5);
+  order.forEach(i=>{
+    const [text,key]=item.a[i];
+    const b=document.createElement('button');
+    b.className='opt';
+    b.textContent=text;
+    b.onclick=()=>choose(key);
+    wrap.appendChild(b);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function choose(key){
+  // if revisiting, undo old answer first
+  if(answers[idx]) scores[answers[idx]]--;
+  answers[idx]=key;
+  scores[key]++;
+  if(idx<Q.length-1){ idx++; render(); }
+  else showResults();
+}
+
+function back(){
+  if(idx>0){ idx--; render(); }
+}
+
+function showResults(){
+  document.getElementById('quiz').classList.add('hide');
+  const res=document.getElementById('results');
+  res.classList.remove('hide');
+
+  const total=Q.length;
+  // determine winner (tie-break by story-growth order: haw > sniff > scurry > hem
+  // so a tie nudges toward the most constructive coachable identity)
+  const priority=['haw','sniff','scurry','hem'];
+  let top=priority[0], best=-1;
+  priority.forEach(k=>{ if(scores[k]>best){best=scores[k];top=k;} });
+  const c=C[top];
+
+  const order=['sniff','scurry','haw','hem'];
+  const bars=order.map(k=>{
+    const pct=Math.round(scores[k]/total*100);
+    return `<div class="bar-row">
+      <div class="bar-label" style="color:${C[k].color}">${C[k].emoji} ${C[k].name}</div>
+      <div class="bar-track"><div class="bar-fill" data-w="${pct}" style="background:${C[k].color}"></div></div>
+      <div class="bar-pct">${pct}%</div></div>`;
+  }).join('');
+
+  const tips=TIPS[top].map(t=>`<div class="tip"><div class="dot">✓</div><div class="tx">${t[0]}</div></div>`).join('');
+
+  res.style.setProperty('--rc',c.color);
+  res.innerHTML=`
+    <div class="res-hero">
+      <div class="res-kicker">Your dominant change style is</div>
+      <div class="res-emoji">${c.emoji}</div>
+      <div class="res-name" style="color:${c.color}">${c.name} — ${c.sub}</div>
+      <div class="res-line">${c.line}</div>
+    </div>
+    <p class="res-desc">${c.desc}</p>
+
+    <div class="mix">
+      <h3>Your full change mix</h3>
+      ${bars}
+    </div>
+
+    <div class="tips" style="border-left-color:${c.color}">
+      <h3 style="color:${c.color}">Tips for how to face change as a ${c.name}</h3>
+      ${tips}
+    </div>
+
+    <div class="ei-note">
+      <b>The EI connection:</b> Haw\'s entire journey is powered by emotional intelligence — <b>self-awareness</b> (noticing the fear), <b>self-regulation</b> (choosing to move anyway), and <b>motivation</b> (chasing new Cheese). Whatever your style, growing these three skills is what moves you through any change. Remember: <em>"What would you do if you weren\'t afraid?"</em>
+    </div>
+
+    <div class="res-actions">
+      <button class="btn-primary" onclick="start()">Retake the assessment</button>
+      <button class="btn-ghost" onclick="window.print()">Print my result</button>
+    </div>
+  `;
+
+  // animate bars
+  requestAnimationFrame(()=>{
+    res.querySelectorAll('.bar-fill').forEach(el=>{ el.style.width=el.dataset.w+'%'; });
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
